@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Meghtal Homestay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .gal-tabs { display: flex; gap: .6em; flex-wrap: wrap; margin-bottom: 2em; }
+    .gal-tab {
+      padding: .5em 1.1em;
+      border: 1.5px solid rgba(255,255,255,.35);
+      border-radius: 20px;
+      background: transparent;
+      font-size: .85rem;
+      color: rgba(255,255,255,.85);
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+      font-family: 'Work Sans', sans-serif;
+    }
+    .gal-tab:hover {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.6);
+      color: #fff;
+    }
+    .gal-tab.active {
+      background: var(--amber);
+      color: var(--pine-dark);
+      border-color: var(--amber);
+      font-weight: 600;
+    }
+
+    .gal-grid { columns: 3 260px; column-gap: 16px; }
+    .gal-item { break-inside: avoid; margin-bottom: 16px; position: relative; border-radius: var(--radius); overflow: hidden; }
+    .gal-item img { width: 100%; display: block; transition: transform .35s ease; }
+    .gal-item:hover img { transform: scale(1.04); }
+    .gal-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 12px; background: linear-gradient(0deg, rgba(18,32,25,.85), transparent); color: var(--snow); font-size: .78rem; }
+    .gal-del { position: absolute; top: 8px; right: 8px; background: var(--danger); color: #fff; border: none; border-radius: 3px; width: 26px; height: 26px; font-size: .8rem; cursor: pointer; }
+
+    /* Lightbox */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 800; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: var(--radius); object-fit: contain; }
+    .lightbox-close { position: absolute; top: 18px; right: 22px; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; }
+    .lightbox-cap { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.8); font-size: .85rem; font-family: 'Space Mono',monospace; white-space: nowrap; }
+
+    .gal-upload { margin-top: 1.6em; padding: 18px; border: 1px dashed var(--mist); border-radius: var(--radius); display: none; gap: .8em; flex-wrap: wrap; align-items: center; background: var(--snow); }
+    .admin-badge-tag { display: inline-block; background: var(--pine); color: var(--snow); font-family: 'Space Mono',monospace; font-size: .68rem; padding: .3em .6em; border-radius: 2px; letter-spacing: .05em; }
+
+    @media (max-width: 640px) { .gal-grid { columns: 1 100%; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav page-nav" id="siteNav">
+  <a href="index.html" class="brand">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+    Meghtal
+  </a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="book.html">Book Now</a>
+  </nav>
+  <div class="navRight">
+    <span id="authStatus" style="font-size:.82rem;color:var(--amber);font-family:'Space Mono',monospace;"></span>
+    <button class="btn small" id="btnUserLogin"><span class="txt">Guest</span> Sign In</button>
+    <button class="btn amber small" id="btnAdminLogin">Admin</button>
+    <button class="hamburger" id="hamBtn"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobileMenu" id="mobileMenu">
+  <button class="closeX" id="mobileClose">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="book.html">Book Now</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--amber-light); justify-content:center;">Look Around</div>
+    <h1>Views From Every Corner</h1>
+    <p>Balconies, mountains, and the sky doing something different every morning and evening.</p>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section style="background:var(--pine-dark); color:var(--snow);">
+  <div class="container">
+    <div class="gal-tabs" id="galTabs"></div>
+    <div class="gal-grid" id="galGrid"></div>
+    <div class="gal-upload" id="galUploadWrap">
+      <span class="admin-badge-tag">ADMIN</span>
+      <select id="galCatSelect" style="padding:.5em; border-radius:3px; border:1px solid #445; background:#fff;">
+        <option>Balcony Views</option>
+        <option>Bedrooms</option>
+        <option>Bathrooms</option>
+        <option>Nature</option>
+        <option>Sunrise</option>
+        <option>Sunset</option>
+      </select>
+      <input type="file" id="galFileInput" accept="image/*" style="color:var(--snow);">
+      <input type="text" id="galCapInput" placeholder="Photo caption (optional)" style="padding:.45em .7em; border-radius:3px; border:1px solid #445; min-width:180px; font-family:inherit;">
+      <button class="btn amber small" id="galUploadBtn">Add To Gallery</button>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">&times;</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lightbox-cap" id="lbCap"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+        Meghtal
+      </a>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="rooms.html">Rooms</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="book.html">Book Now</a>
+      </nav>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+    </div>
+    <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
+  </div>
+</footer>
+
+<!-- AUTH MODALS -->
+<div class="overlay" id="adminOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="adminOverlay">&times;</button>
+    <h3>Admin Sign In</h3>
+    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
+    <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
+    <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
+    <div class="err" id="adminErr"></div>
+  </div>
+</div>
+<div class="overlay" id="userOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="userOverlay">&times;</button>
+    <h3>Guest Sign In</h3>
+    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
+    <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
+    <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
+    <div class="err" id="userErr"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+const galCats = ['All', 'Balcony Views', 'Bedrooms', 'Bathrooms', 'Nature', 'Sunrise', 'Sunset'];
+
+MT.pageInit = async function () {
+  MT.state.gallery = await MT.loadKey('gallery', MT.defaultGallery);
+  renderGalTabs();
+  renderGallery();
+};
+
+MT.onAuthChange = function () {
+  document.getElementById('galUploadWrap').style.display = MT.state.isAdmin ? 'flex' : 'none';
+  renderGallery();
+};
+
+function renderGalTabs () {
+  document.getElementById('galTabs').innerHTML = galCats.map(c =>
+    `<button class="gal-tab ${MT.state.galFilter === c ? 'active' : ''}" data-cat="${c}">${c}</button>`
+  ).join('');
+  document.querySelectorAll('.gal-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      MT.state.galFilter = t.getAttribute('data-cat');
+      renderGalTabs();
+      renderGallery();
+    });
+  });
+}
+
+function renderGallery () {
+  const items = MT.state.galFilter === 'All'
+    ? MT.state.gallery
+    : MT.state.gallery.filter(g => g.cat === MT.state.galFilter);
+
+  document.getElementById('galGrid').innerHTML = items.map(g => `
+    <div class="gal-item" data-img="${g.img}" data-cap="${g.cap}">
+      <img src="${g.img}" onerror="this.onerror=null;this.src='https://picsum.photos/seed/${g.id}/700/500'" alt="${g.cap}" loading="lazy">
+      <div class="gal-cap">${g.cap} · ${g.cat}</div>
+      ${MT.state.isAdmin ? `<button class="gal-del" data-del="${g.id}" title="Remove">&times;</button>` : ''}
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.gal-item').forEach(item => {
+    item.addEventListener('click', e => {
+      if (e.target.classList.contains('gal-del')) return;
+      openLightbox(item.dataset.img, item.dataset.cap);
+    });
+  });
+
+  document.querySelectorAll('[data-del]').forEach(b => {
+    b.addEventListener('click', async e => {
+      e.stopPropagation();
+      MT.state.gallery = MT.state.gallery.filter(g => g.id !== b.getAttribute('data-del'));
+      await MT.saveKey('gallery', MT.state.gallery);
+      renderGallery();
+      MT.toast('Photo removed');
+    });
+  });
+}
+
+// Lightbox
+function openLightbox (src, cap) {
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lbCap').textContent = cap;
+  document.getElementById('lightbox').classList.add('open');
+}
+document.getElementById('lbClose').addEventListener('click', () =>
+  document.getElementById('lightbox').classList.remove('open'));
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox'))
+    document.getElementById('lightbox').classList.remove('open');
+});
+
+// Upload
+document.getElementById('galUploadBtn').addEventListener('click', async () => {
+  const fileInput = document.getElementById('galFileInput');
+  const capInput  = document.getElementById('galCapInput');
+  const cat = document.getElementById('galCatSelect').value;
+  if (!fileInput.files || !fileInput.files[0]) { MT.toast('Choose a photo first'); return; }
+  const btn = document.getElementById('galUploadBtn');
+  btn.disabled = true; btn.textContent = 'Uploading…';
+  try {
+    const dataUrl = await MT.resizeImage(fileInput.files[0]);
+    const cap = (capInput && capInput.value.trim()) || 'Added by admin';
+    MT.state.gallery.unshift({ id: 'g' + Date.now(), cat, img: dataUrl, cap });
+    await MT.saveKey('gallery', MT.state.gallery);
+    fileInput.value = '';
+    if (capInput) capInput.value = '';
+    renderGallery();
+    MT.toast('Photo added to gallery ✓');
+  } catch (e) {
+    console.error(e);
+    MT.toast('Could not read that image');
+  }
+  btn.disabled = false; btn.textContent = 'Add To Gallery';
+});
+</script>
+</body>
+</html>

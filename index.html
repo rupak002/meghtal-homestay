@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meghtal — A Mountain Homestay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Hero ---- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      background:
+        linear-gradient(180deg, rgba(18,32,25,.15) 0%, rgba(18,32,25,.55) 78%, rgba(18,32,25,.85) 100%),
+        url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      color: var(--snow);
+    }
+    .hero-inner { padding: 120px 24px 64px; max-width: var(--maxw); margin: 0 auto; width: 100%; }
+    .hero h1 { color: var(--snow); font-size: clamp(2.1rem, 5.6vw, 4.1rem); line-height: 1.05; max-width: 14ch; }
+    .hero p.lede { max-width: 46ch; font-size: 1.08rem; color: var(--mist-light); margin-bottom: 1.6em; }
+    .hero-ctas { display: flex; gap: .9em; flex-wrap: wrap; }
+
+    /* ---- Location ---- */
+    .locate { background: var(--pine-dark); color: var(--snow); padding: 52px 0 0; }
+    .locate-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; padding-bottom: 64px; }
+    .locate-map { border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(255,255,255,.15); cursor: pointer; position: relative; }
+    .locate-map iframe { width: 100%; height: 280px; border: 0; display: block; pointer-events: none; }
+    .locate-map .tap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(18,32,25,0); transition: background .2s; }
+    .locate-map:hover .tap { background: rgba(18,32,25,.25); }
+    .locate-map .tap span { opacity: 0; background: var(--amber); color: var(--pine-dark); padding: .6em 1.1em; border-radius: var(--radius); font-weight: 600; font-size: .85rem; transition: opacity .2s; }
+    .locate-map:hover .tap span { opacity: 1; }
+    .locate-text p { color: var(--mist-light); }
+    .locate-addr { font-family: 'Space Mono', monospace; font-size: .85rem; color: var(--amber-light); margin: 1em 0 1.4em; }
+
+    /* ---- Quick-links strip ---- */
+    .quicklinks {
+      background: var(--parchment);
+      padding: 48px 0;
+    }
+    .ql-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .ql-card {
+      background: var(--snow);
+      border: 1px solid #E3DCC9;
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: .5em;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .ql-card:hover { box-shadow: 0 6px 24px rgba(18,32,25,.1); transform: translateY(-2px); }
+    .ql-card .icon { font-size: 1.6rem; }
+    .ql-card h3 { font-size: 1rem; margin: 0; }
+    .ql-card p { font-size: .85rem; color: #5A6358; margin: 0; }
+
+    @media (max-width: 1024px) { .locate-grid { grid-template-columns: 1fr; } .ql-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .ql-grid { grid-template-columns: 1fr; } .hero-inner { padding: 100px 20px 46px; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="siteNav">
+  <a href="index.html" class="brand">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+    Meghtal
+  </a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="book.html">Book Now</a>
+  </nav>
+  <div class="navRight">
+    <span id="authStatus" style="font-size:.82rem; font-family:'Space Mono',monospace;"></span>
+    <button class="btn small" id="btnUserLogin"><span class="txt">Guest</span> Sign In</button>
+    <button class="btn amber small" id="btnAdminLogin">Admin</button>
+    <button class="hamburger" id="hamBtn"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobileMenu" id="mobileMenu">
+  <button class="closeX" id="mobileClose">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="book.html">Book Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="eyebrow" style="color:var(--amber-light);">Darjeeling Ridge · West Bengal</div>
+    <h1>Wake Up Above The Clouds</h1>
+    <p class="lede">A family-run homestay on the eastern Himalayan ridge, where every balcony faces Kanchenjunga and breakfast is timed to the sunrise.</p>
+    <div class="hero-ctas">
+      <a href="book.html" class="btn amber">Check Availability</a>
+      <a href="rooms.html" class="btn outline">See The Rooms</a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="locate">
+  <div class="container locate-grid">
+    <div class="locate-map" id="mapClick">
+      <iframe loading="lazy" src="https://maps.google.com/maps?q=27.0360,88.2627&z=13&output=embed"></iframe>
+      <div class="tap"><span>Open in Google Maps →</span></div>
+    </div>
+    <div class="locate-text">
+      <div class="eyebrow" style="color:var(--amber);">Find Us</div>
+      <h2 style="color:var(--snow);">Tucked Into The Ridge, 20 Minutes From Darjeeling Town</h2>
+      <p>We're set on a terraced hillside above a pine forest — close enough for a day trip into town, far enough that the only sound at night is the wind.</p>
+      <div class="locate-addr">27.0360° N, 88.2627° E · Darjeeling Hills, West Bengal</div>
+      <a class="btn amber" href="https://www.google.com/maps?q=27.0360,88.2627" target="_blank" rel="noopener">Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<svg class="ridge parchment" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 60 L0 40 L120 10 L230 45 L340 20 L460 50 L580 5 L700 42 L820 15 L950 48 L1080 25 L1200 42 L1200 60 Z"/></svg>
+
+<!-- QUICK LINKS -->
+<section class="quicklinks">
+  <div class="container">
+    <div class="ql-grid">
+      <a href="about.html" class="ql-card">
+        <div class="icon">🏡</div>
+        <h3>Our Story</h3>
+        <p>Three generations on the same hillside since 1978.</p>
+      </a>
+      <a href="rooms.html" class="ql-card">
+        <div class="icon">🛏</div>
+        <h3>Rooms &amp; Rates</h3>
+        <p>Three rooms, each with a balcony facing the valley.</p>
+      </a>
+      <a href="gallery.html" class="ql-card">
+        <div class="icon">🌄</div>
+        <h3>Gallery</h3>
+        <p>Balconies, ridgelines, and whatever the sky is doing.</p>
+      </a>
+      <a href="reviews.html" class="ql-card">
+        <div class="icon">⭐</div>
+        <h3>Guest Reviews</h3>
+        <p>Real stays, honest words — 4.8 average from 3 reviews.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+        Meghtal
+      </a>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="rooms.html">Rooms</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="book.html">Book Now</a>
+      </nav>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+    </div>
+    <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
+  </div>
+</footer>
+
+<!-- AUTH MODALS (shared across all pages) -->
+<div class="overlay" id="adminOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="adminOverlay">&times;</button>
+    <h3>Admin Sign In</h3>
+    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
+    <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
+    <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
+    <div class="err" id="adminErr"></div>
+  </div>
+</div>
+
+<div class="overlay" id="userOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="userOverlay">&times;</button>
+    <h3>Guest Sign In</h3>
+    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
+    <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
+    <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
+    <div class="err" id="userErr"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('mapClick').addEventListener('click', () => {
+    window.open('https://www.google.com/maps?q=27.0360,88.2627', '_blank');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Now — Meghtal Homestay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Booking ---- */
+    .book-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .book-form { background: var(--snow); border: 1px solid #E3DCC9; border-radius: var(--radius); padding: 28px; }
+    .pay-options { display: flex; gap: .7em; flex-wrap: wrap; margin-top: .4em; }
+    .pay-opt { border: 1.5px solid #D8CFB4; border-radius: var(--radius); padding: .7em 1em; font-size: .85rem; display: flex; align-items: center; gap: .5em; cursor: pointer; }
+    .book-side { position: sticky; top: 100px; }
+    .book-side img { border-radius: var(--radius); margin-bottom: 1.4em; width: 100%; }
+    .book-side .callout { background: var(--pine-dark); color: var(--snow); border-radius: var(--radius); padding: 22px; }
+    .book-side .callout .eyebrow { color: var(--amber-light); }
+    .book-side .callout p { margin: 0 0 .6em; color: var(--mist-light); font-size: .92rem; }
+    .book-side .callout p:last-child { margin: 0; }
+
+    /* ---- Contact ---- */
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .contact-list { display: flex; flex-direction: column; gap: 1.2em; margin-top: 1.4em; }
+    .contact-item { display: flex; align-items: center; gap: .9em; }
+    .contact-item .icon { width: 42px; height: 42px; border-radius: 50%; background: var(--pine); color: var(--snow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+    .contact-item a, .contact-item span.val { font-weight: 600; color: var(--pine-dark); text-decoration: none; }
+    .contact-item a:hover { color: var(--amber); }
+    .contact-item .lbl { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--amber); font-family: 'Space Mono',monospace; }
+
+    /* Confirm card */
+    .confirm-card { text-align: center; }
+    .confirm-card .ref { font-family: 'Space Mono',monospace; background: var(--parchment); padding: .7em 1em; border-radius: 3px; margin: 1em 0; font-weight: 700; letter-spacing: .05em; }
+
+    @media (max-width: 1024px) {
+      .book-wrap { grid-template-columns: 1fr; }
+      .book-side { position: static; }
+      .contact-wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav page-nav" id="siteNav">
+  <a href="index.html" class="brand">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+    Meghtal
+  </a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="book.html">Book Now</a>
+  </nav>
+  <div class="navRight">
+    <span id="authStatus" style="font-size:.82rem;color:var(--amber);font-family:'Space Mono',monospace;"></span>
+    <button class="btn small" id="btnUserLogin"><span class="txt">Guest</span> Sign In</button>
+    <button class="btn amber small" id="btnAdminLogin">Admin</button>
+    <button class="hamburger" id="hamBtn"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobileMenu" id="mobileMenu">
+  <button class="closeX" id="mobileClose">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="book.html">Book Now</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--amber-light); justify-content:center;">Reserve</div>
+    <h1>Book Your Stay</h1>
+    <p>No deposit taken until we confirm availability. This is a demo checkout — no real payment is processed.</p>
+  </div>
+</div>
+
+<!-- BOOKING FORM -->
+<section>
+  <div class="container">
+    <div class="book-wrap">
+
+      <!-- Form -->
+      <div class="book-form">
+        <div class="grid2">
+          <div class="field"><label>Full Name</label><input type="text" id="bkName" placeholder="Your name"></div>
+          <div class="field"><label>Phone</label><input type="tel" id="bkPhone" placeholder="+91 98300 00000"></div>
+        </div>
+        <div class="field"><label>Email</label><input type="email" id="bkEmail" placeholder="you@email.com"></div>
+        <div class="grid2">
+          <div class="field"><label>Check-In</label><input type="date" id="bkIn"></div>
+          <div class="field"><label>Check-Out</label><input type="date" id="bkOut"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Room</label><select id="bkRoom"></select></div>
+          <div class="field"><label>Guests</label><input type="number" id="bkGuests" min="1" max="4" value="2"></div>
+        </div>
+        <div class="field">
+          <label>Payment Method</label>
+          <div class="pay-options">
+            <label class="pay-opt"><input type="radio" name="pay" value="Card" checked> Credit / Debit Card</label>
+            <label class="pay-opt"><input type="radio" name="pay" value="UPI"> UPI</label>
+            <label class="pay-opt"><input type="radio" name="pay" value="Property"> Pay At Property</label>
+          </div>
+        </div>
+        <div id="cardFields" class="grid2" style="margin-top:.6em;">
+          <div class="field"><label>Card Number</label><input type="text" id="bkCard" placeholder="4242 4242 4242 4242" maxlength="19"></div>
+          <div class="field"><label>Expiry / CVV</label><input type="text" id="bkCardExp" placeholder="MM/YY · CVV"></div>
+        </div>
+        <button class="btn amber" id="bkSubmit" style="width:100%; justify-content:center; margin-top:.6em;">
+          Confirm Booking
+        </button>
+        <div class="err" id="bkErr"></div>
+      </div>
+
+      <!-- Side panel -->
+      <div class="book-side">
+        <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80"
+             onerror="this.onerror=null;this.src='https://picsum.photos/seed/meghtal-lake/800/600'"
+             alt="Mountain lake at Meghtal">
+        <div class="callout">
+          <div class="eyebrow">Good To Know</div>
+          <p>Check-in from 12:00 PM · Check-out by 10:30 AM</p>
+          <p>Home-cooked breakfast and dinner included</p>
+          <p>Free cancellation up to 48 hours before arrival</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<svg class="ridge flip" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 60 L0 40 L120 10 L230 45 L340 20 L460 50 L580 5 L700 42 L820 15 L950 48 L1080 25 L1200 42 L1200 60 Z"/></svg>
+
+<!-- CONTACT -->
+<section class="parchment" id="contact">
+  <div class="container contact-wrap">
+    <div>
+      <div class="eyebrow">Get In Touch</div>
+      <h2>Say Hello Before You Arrive</h2>
+      <p>Questions about the road up, the weather, or what to pack? Reach us directly — we usually reply within the hour.</p>
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="icon">☎</div>
+          <div>
+            <span class="lbl">Phone / WhatsApp</span>
+            <a href="tel:+919830000000">+91 98300 00000</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="icon">f</div>
+          <div>
+            <span class="lbl">Facebook</span>
+            <a href="https://facebook.com/meghtalhomestay" target="_blank" rel="noopener">facebook.com/meghtalhomestay</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="icon">◎</div>
+          <div>
+            <span class="lbl">Instagram</span>
+            <a href="https://instagram.com/meghtal.homestay" target="_blank" rel="noopener">@meghtal.homestay</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="icon">✉</div>
+          <div>
+            <span class="lbl">Email</span>
+            <a href="mailto:stay@meghtal.in">stay@meghtal.in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80"
+         onerror="this.onerror=null;this.src='https://picsum.photos/seed/meghtal-mist/800/600'"
+         style="border-radius:4px;"
+         alt="Misty mountain view near Meghtal">
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+        Meghtal
+      </a>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="rooms.html">Rooms</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="book.html">Book Now</a>
+      </nav>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+    </div>
+    <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
+  </div>
+</footer>
+
+<!-- AUTH MODALS -->
+<div class="overlay" id="adminOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="adminOverlay">&times;</button>
+    <h3>Admin Sign In</h3>
+    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
+    <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
+    <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
+    <div class="err" id="adminErr"></div>
+  </div>
+</div>
+<div class="overlay" id="userOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="userOverlay">&times;</button>
+    <h3>Guest Sign In</h3>
+    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
+    <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
+    <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
+    <div class="err" id="userErr"></div>
+  </div>
+</div>
+
+<!-- BOOKING CONFIRM -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal confirm-card">
+    <button class="closeX" data-close="confirmOverlay">&times;</button>
+    <h3>Booking Received 🎉</h3>
+    <p style="color:#4B5548;">We've noted your dates — a confirmation would normally follow by email.</p>
+    <div class="ref" id="confirmRef"></div>
+    <button class="btn ghost" data-close="confirmOverlay">Done</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+
+MT.pageInit = async function () {
+  const rooms = await MT.loadKey('rooms', MT.defaultRooms);
+  MT.state.rooms = (rooms && rooms.length) ? rooms : MT.defaultRooms;
+
+  // Populate room select
+  const bkRoom = document.getElementById('bkRoom');
+  bkRoom.innerHTML = MT.state.rooms.map(r =>
+    `<option value="${r.id}">${r.name} — ₹${Number(r.price).toLocaleString('en-IN')}/night</option>`
+  ).join('');
+
+  // Pre-select room from query param ?room=r2
+  const params = new URLSearchParams(location.search);
+  const roomParam = params.get('room');
+  if (roomParam) bkRoom.value = roomParam;
+
+  // Default dates
+  const today = new Date();
+  const cin  = new Date(today.getTime() + 86400000);
+  const cout = new Date(today.getTime() + 86400000 * 3);
+  document.getElementById('bkIn').value  = cin.toISOString().slice(0, 10);
+  document.getElementById('bkOut').value = cout.toISOString().slice(0, 10);
+};
+
+// Show/hide card fields
+document.querySelectorAll('input[name=pay]').forEach(r => {
+  r.addEventListener('change', () => {
+    document.getElementById('cardFields').style.display =
+      document.querySelector('input[name=pay]:checked').value === 'Card' ? 'grid' : 'none';
+  });
+});
+
+// Format card number input
+document.getElementById('bkCard')?.addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+});
+
+// Submit booking
+document.getElementById('bkSubmit').addEventListener('click', async () => {
+  const errEl = document.getElementById('bkErr');
+  const name  = document.getElementById('bkName').value.trim();
+  const phone = document.getElementById('bkPhone').value.trim();
+  const email = document.getElementById('bkEmail').value.trim();
+  const cin   = document.getElementById('bkIn').value;
+  const cout  = document.getElementById('bkOut').value;
+  const roomId = document.getElementById('bkRoom').value;
+  const pay   = document.querySelector('input[name=pay]:checked').value;
+
+  if (!name || !phone || !email.includes('@') || !cin || !cout) {
+    errEl.textContent = 'Please fill in all required fields.'; return;
+  }
+  if (new Date(cout) <= new Date(cin)) {
+    errEl.textContent = 'Check-out must be after check-in.'; return;
+  }
+  if (pay === 'Card') {
+    const card = document.getElementById('bkCard').value.replace(/\s/g, '');
+    if (card.length < 12) { errEl.textContent = 'Enter a card number (demo only, not charged).'; return; }
+  }
+  errEl.textContent = '';
+
+  const room = MT.state.rooms.find(r => r.id === roomId);
+  const ref  = 'MGT-' + Date.now().toString().slice(-6);
+  const booking = { id: ref, name, phone, email, cin, cout, room: room ? room.name : roomId, pay, created: new Date().toISOString() };
+
+  const bookings = await MT.loadKey('bookings', []);
+  bookings.unshift(booking);
+  await MT.saveKey('bookings', bookings);
+
+  document.getElementById('confirmRef').textContent = ref;
+  MT.openModal('confirmOverlay');
+});
+</script>
+</body>
+</html>

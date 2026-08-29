@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rooms — Meghtal Homestay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Room cards ---- */
+    .rooms-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+    .room-card { background: var(--snow); border: 1px solid #E3DCC9; border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    .room-photo { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+    .room-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+    .room-card:hover .room-photo img { transform: scale(1.05); }
+    .room-photo .badge { position: absolute; top: 12px; left: 12px; background: rgba(18,32,25,.8); color: var(--snow); font-family: 'Space Mono',monospace; font-size: .7rem; padding: .35em .7em; border-radius: 2px; text-transform: uppercase; letter-spacing: .06em; }
+    .room-body { padding: 22px; display: flex; flex-direction: column; gap: .6em; flex: 1; }
+    .room-body h3 { font-size: 1.25rem; }
+    .room-body p { color: #4B5548; font-size: .92rem; margin: 0; }
+    .room-price { display: flex; align-items: baseline; gap: .4em; font-family: 'Space Mono',monospace; color: var(--pine-dark); }
+    .room-price .amt { font-size: 1.5rem; font-weight: 700; color: var(--amber); }
+    .room-price .per { font-size: .75rem; color: #7A7A6E; }
+    .room-actions { display: flex; gap: .6em; margin-top: .4em; flex-wrap: wrap; }
+
+    /* Sub-photo thumbnails */
+    .room-pics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: .8em 0; }
+    .room-pics-row .subpic-wrap { position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4/3; }
+    .room-pics-row .subpic-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+    .room-pics-row .subpic-wrap:hover img { transform: scale(1.07); }
+    .room-pics-row .subpic-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(18,32,25,.65); color: #fff; font-size: .68rem; font-family: 'Space Mono',monospace; text-transform: uppercase; letter-spacing: .06em; padding: 4px 8px; }
+
+    /* Amenity tags */
+    .room-amenities { display: flex; gap: .4em; flex-wrap: wrap; margin: .4em 0; }
+    .room-amenities span { font-size: .72rem; color: #5A6358; background: var(--parchment); padding: .2em .6em; border-radius: 10px; white-space: nowrap; }
+
+    /* Admin edit panel */
+    .admin-edit { margin-top: .8em; padding: .9em; border-top: 2px dashed var(--amber); background: #fffdf5; display: flex; flex-direction: column; gap: .5em; border-radius: var(--radius); }
+    .admin-edit label { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--amber); font-family: 'Space Mono',monospace; margin-top: .3em; }
+    .admin-edit input[type=number],
+    .admin-edit input[type=file] { width: 100%; padding: .45em .6em; border: 1px solid #D8CFB4; border-radius: 3px; font-family: 'Space Mono',monospace; font-size: .85rem; }
+    .admin-badge-tag { display: inline-block; background: var(--pine); color: var(--snow); font-family: 'Space Mono',monospace; font-size: .68rem; padding: .3em .6em; border-radius: 2px; letter-spacing: .05em; }
+
+    /* Inclusions banner */
+    .inclusions { background: var(--parchment); padding: 56px 0; }
+    .inc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; margin-top: 2em; }
+    .inc-item { display: flex; align-items: flex-start; gap: .8em; }
+    .inc-item .icon { font-size: 1.5rem; flex-shrink: 0; margin-top: .1em; }
+    .inc-item h4 { font-size: .95rem; margin: 0 0 .25em; }
+    .inc-item p { font-size: .82rem; color: #4B5548; margin: 0; line-height: 1.5; }
+
+    @media (max-width: 1024px) {
+      .rooms-grid { grid-template-columns: repeat(2,1fr); }
+      .inc-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+      .rooms-grid { grid-template-columns: 1fr; }
+      .inc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav page-nav" id="siteNav">
+  <a href="index.html" class="brand">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+    Meghtal
+  </a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="book.html">Book Now</a>
+  </nav>
+  <div class="navRight">
+    <span id="authStatus" style="font-size:.82rem;color:var(--amber);font-family:'Space Mono',monospace;"></span>
+    <button class="btn small" id="btnUserLogin"><span class="txt">Guest</span> Sign In</button>
+    <button class="btn amber small" id="btnAdminLogin">Admin</button>
+    <button class="hamburger" id="hamBtn"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobileMenu" id="mobileMenu">
+  <button class="closeX" id="mobileClose">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="book.html">Book Now</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--amber-light); justify-content:center;">Stay</div>
+    <h1>Rooms &amp; Rates</h1>
+    <p>Every room looks out at the range. Prices are per night — <span id="adminRoomsNote">sign in as admin to edit.</span></p>
+  </div>
+</div>
+
+<!-- ROOMS GRID -->
+<section>
+  <div class="container">
+    <div class="rooms-grid" id="roomsGrid"></div>
+  </div>
+</section>
+
+<!-- INCLUSIONS -->
+<section class="inclusions">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">What's Included</div>
+      <h2>Every room comes with</h2>
+    </div>
+    <div class="inc-grid">
+      <div class="inc-item">
+        <div class="icon">🍳</div>
+        <div><h4>Home-Cooked Breakfast</h4><p>From the garden, made fresh each morning. Gundruk soup on cold days.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">🚿</div>
+        <div><h4>24-Hour Hot Water</h4><p>Solar-heated, backed up by a geyser for cloudy days.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">🌅</div>
+        <div><h4>Valley-Facing Balcony</h4><p>Every room has its own outdoor space with unobstructed views.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">🧺</div>
+        <div><h4>Daily Housekeeping</h4><p>Linen changed every alternate day, towels as needed.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">📶</div>
+        <div><h4>WiFi (Patchy But There)</h4><p>Enough for messages. Not enough for video calls — part of the charm.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">🔥</div>
+        <div><h4>Evening Fire Oct–Mar</h4><p>The sitting-room wood fire is lit every evening in the cold months.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">🅿</div>
+        <div><h4>Free Parking</h4><p>Space for two vehicles in the lower lot. Motorbikes near the entrance.</p></div>
+      </div>
+      <div class="inc-item">
+        <div class="icon">🧭</div>
+        <div><h4>Trek Guidance</h4><p>We know the trails. Ask us the evening before and we'll mark a route for you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="ridge" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 60 L0 30 L140 55 L260 8 L380 40 L500 18 L620 48 L740 12 L860 44 L980 20 L1100 46 L1200 15 L1200 60 Z"/></svg>
+
+<!-- POLICIES -->
+<section style="background:var(--pine-dark); color:var(--snow); padding:64px 0;">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow" style="color:var(--amber-light);">Before You Book</div>
+      <h2 style="color:var(--snow);">House Rules &amp; Policies</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+      <div>
+        <h3 style="color:var(--snow); font-size:1rem; margin-bottom:.8em;">Check-In / Out</h3>
+        <ul style="color:var(--mist-light); padding-left:1.2em; line-height:2;">
+          <li>Check-in from 12:00 PM</li>
+          <li>Check-out by 10:30 AM</li>
+          <li>Early check-in on request (subject to availability)</li>
+          <li>Luggage storage available free of charge</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color:var(--snow); font-size:1rem; margin-bottom:.8em;">Cancellation</h3>
+        <ul style="color:var(--mist-light); padding-left:1.2em; line-height:2;">
+          <li>Free cancellation up to 48 hours before arrival</li>
+          <li>50% refund for cancellations within 48 hours</li>
+          <li>No refund for no-shows</li>
+          <li>Full refund if we need to cancel on our end</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:2.5em; text-align:center;">
+      <a href="book.html" class="btn amber">Book A Room</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+        Meghtal
+      </a>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="rooms.html">Rooms</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="book.html">Book Now</a>
+      </nav>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+    </div>
+    <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
+  </div>
+</footer>
+
+<!-- AUTH MODALS -->
+<div class="overlay" id="adminOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="adminOverlay">&times;</button>
+    <h3>Admin Sign In</h3>
+    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
+    <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
+    <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
+    <div class="err" id="adminErr"></div>
+  </div>
+</div>
+<div class="overlay" id="userOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="userOverlay">&times;</button>
+    <h3>Guest Sign In</h3>
+    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
+    <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
+    <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
+    <div class="err" id="userErr"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+const defaultRooms = [
+  { id:'r1', name:'The Ridge Room', type:'Bedroom', price:3200,
+    img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
+    imgBed:'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80',
+    imgBath:'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80',
+    desc:'A warm, wood-panelled bedroom with a picture window framing the range. Queen bed, reading corner, hot water bottle on cold nights.',
+    amenities:['Queen Bed','Valley View','Hot Water','WiFi','Reading Corner'] },
+  { id:'r2', name:'Balcony Suite', type:'Balcony', price:4500,
+    img:'https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=800&q=80',
+    imgBed:'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80',
+    imgBath:'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80',
+    desc:'Private balcony facing east — this is the room to book if you want Kanchenjunga with your morning tea.',
+    amenities:['King Bed','Private Balcony','Mountain View','Hot Water','WiFi','Tea Maker'] },
+  { id:'r3', name:'Garden Bath Cottage', type:'Bathroom', price:5200,
+    img:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
+    imgBed:'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80',
+    imgBath:'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
+    desc:'A standalone cottage with an open-air bath tub looking straight into the pine forest. Our most requested room.',
+    amenities:['Open-Air Bath','King Bed','Garden View','Hot Water','WiFi','Fireplace','Privacy'] }
+];
+
+MT.pageInit = async function () {
+  const rooms = await MT.loadKey('rooms', defaultRooms);
+  MT.state.rooms = (rooms && rooms.length) ? rooms : defaultRooms;
+  renderRooms();
+};
+
+MT.onAuthChange = function () {
+  const note = document.getElementById('adminRoomsNote');
+  if (note) note.textContent = MT.state.isAdmin ? 'you can edit prices below.' : 'sign in as admin to edit.';
+  renderRooms();
+};
+
+function renderRooms () {
+  const rooms = MT.state.rooms.length ? MT.state.rooms : defaultRooms;
+  const grid = document.getElementById('roomsGrid');
+  grid.innerHTML = rooms.map(r => `
+    <div class="room-card">
+      <div class="room-photo">
+        <img src="${r.img}" onerror="this.onerror=null;this.src='https://picsum.photos/seed/${r.id}/800/600'" alt="${r.name}">
+        <span class="badge">${r.type}</span>
+      </div>
+      <div class="room-body">
+        <h3>${r.name}</h3>
+        <p>${r.desc}</p>
+        
+        ${r.amenities ? `
+        <div class="room-amenities">
+          ${r.amenities.map(a => `<span>✓ ${a}</span>`).join('')}
+        </div>` : ''}
+        
+        <div class="room-pics-row">
+          ${r.imgBed ? `<div class="subpic-wrap"><img src="${r.imgBed}" alt="Bedroom"><div class="subpic-label">🛏 Bedroom</div></div>` : ''}
+          ${r.imgBath ? `<div class="subpic-wrap"><img src="${r.imgBath}" alt="Bathroom"><div class="subpic-label">🚿 Bathroom</div></div>` : ''}
+        </div>
+        
+        <div class="room-price">
+          <span class="amt">₹${Number(r.price).toLocaleString('en-IN')}</span>
+          <span class="per">/ night</span>
+        </div>
+        <div class="room-actions">
+          <a href="book.html?room=${r.id}" class="btn ghost small">Book This Room</a>
+        </div>
+        ${MT.state.isAdmin ? `
+        <div class="admin-edit">
+          <span class="admin-badge-tag">ADMIN</span>
+          <label>Update Price (₹ / night)</label>
+          <input type="number" min="0" value="${r.price}" data-price-id="${r.id}">
+          <label>Replace Main Photo</label>
+          <input type="file" accept="image/*" data-photo-id="${r.id}">
+          <label>Replace Bedroom Photo</label>
+          <input type="file" accept="image/*" data-bedphoto-id="${r.id}">
+          <label>Replace Bathroom Photo</label>
+          <input type="file" accept="image/*" data-bathphoto-id="${r.id}">
+          <button class="btn amber small" data-save-room="${r.id}">Save Changes</button>
+        </div>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('[data-save-room]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-save-room');
+      const room = MT.state.rooms.find(x => x.id === id);
+      if (!room) return;
+
+      const priceInput    = grid.querySelector(`[data-price-id="${id}"]`);
+      const photoInput    = grid.querySelector(`[data-photo-id="${id}"]`);
+      const bedPhotoInput = grid.querySelector(`[data-bedphoto-id="${id}"]`);
+      const bathPhotoInput= grid.querySelector(`[data-bathphoto-id="${id}"]`);
+
+      // Save price
+      const newPrice = parseInt(priceInput.value, 10);
+      if (!isNaN(newPrice) && newPrice >= 0) room.price = newPrice;
+
+      btn.disabled = true; btn.textContent = 'Saving…';
+
+      // Upload photos if selected
+      try {
+        if (photoInput?.files?.[0])
+          room.img = await MT.resizeImage(photoInput.files[0]);
+        if (bedPhotoInput?.files?.[0])
+          room.imgBed = await MT.resizeImage(bedPhotoInput.files[0]);
+        if (bathPhotoInput?.files?.[0])
+          room.imgBath = await MT.resizeImage(bathPhotoInput.files[0]);
+      } catch (e) {
+        MT.toast('Image upload failed — try a smaller file');
+        btn.disabled = false; btn.textContent = 'Save Changes';
+        return;
+      }
+
+      await MT.saveKey('rooms', MT.state.rooms);
+      MT.toast('✓ ' + room.name + ' saved');
+      renderRooms();
+    });
+  });
+}
+
+// Pre-select room if navigated from home via ?room=
+(function () {
+  const params = new URLSearchParams(location.search);
+  const roomParam = params.get('room');
+  if (roomParam) {
+    // Scroll to the room card after render
+    setTimeout(() => {
+      const card = document.querySelector(`[data-save-room="${roomParam}"]`);
+      if (card) card.closest('.room-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 400);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews — Meghtal Homestay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .reviews-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
+
+    /* Summary */
+    .rev-summary { display: flex; align-items: center; gap: 1.4em; margin-bottom: 1.6em; }
+    .rev-summary .avg { font-family: 'Fraunces',serif; font-size: 3rem; color: var(--pine-dark); }
+    .stars { color: var(--gold); letter-spacing: 2px; font-size: 1.05rem; }
+    .rev-total { font-size: .85rem; color: #7A7A6E; }
+
+    /* Cards */
+    .rev-list { display: flex; flex-direction: column; gap: 1.2em; }
+    .rev-card { background: var(--snow); border: 1px solid #E3DCC9; border-radius: var(--radius); padding: 18px; }
+    .rev-card .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4em; }
+    .rev-card .name { font-weight: 600; }
+    .rev-card .date { font-size: .72rem; color: #8B8B7C; font-family: 'Space Mono',monospace; }
+    .rev-card p { margin: .5em 0 0; font-size: .92rem; color: #3C463A; }
+
+    /* Form */
+    .rev-form { background: var(--parchment); border-radius: var(--radius); padding: 28px; position: sticky; top: 100px; }
+    .starpick { display: flex; gap: .2em; margin: .5em 0 1em; }
+    .starpick span { font-size: 1.6rem; cursor: pointer; color: #D8CFB4; transition: color .1s; }
+    .starpick span.on { color: var(--gold); }
+    .lockedNote { font-size: .85rem; color: #7A7A6E; margin: .5em 0 1em; }
+
+    /* Rating bar breakdown */
+    .rating-bars { margin-top: 1.2em; display: flex; flex-direction: column; gap: .5em; }
+    .r-bar-row { display: flex; align-items: center; gap: .8em; font-size: .8rem; color: #5A6358; }
+    .r-bar-row .label { width: 40px; text-align: right; flex-shrink: 0; font-family: 'Space Mono',monospace; }
+    .r-bar-track { flex: 1; height: 6px; background: #E3DCC9; border-radius: 3px; }
+    .r-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width .4s ease; }
+    .r-bar-row .count { width: 24px; flex-shrink: 0; }
+
+    @media (max-width: 1024px) { .reviews-wrap { grid-template-columns: 1fr; } .rev-form { position: static; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav page-nav" id="siteNav">
+  <a href="index.html" class="brand">
+    <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+    Meghtal
+  </a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="book.html">Book Now</a>
+  </nav>
+  <div class="navRight">
+    <span id="authStatus" style="font-size:.82rem;color:var(--amber);font-family:'Space Mono',monospace;"></span>
+    <button class="btn small" id="btnUserLogin"><span class="txt">Guest</span> Sign In</button>
+    <button class="btn amber small" id="btnAdminLogin">Admin</button>
+    <button class="hamburger" id="hamBtn"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobileMenu" id="mobileMenu">
+  <button class="closeX" id="mobileClose">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="rooms.html">Rooms</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="book.html">Book Now</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="eyebrow" style="color:var(--amber-light); justify-content:center;">Guest Book</div>
+    <h1>What Guests Say</h1>
+    <p>Real stays, honest words — including the ones where the clouds never cleared.</p>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="parchment">
+  <div class="container">
+    <div class="reviews-wrap">
+
+      <!-- Left: summary + list -->
+      <div>
+        <div class="rev-summary">
+          <div class="avg" id="avgScore">–</div>
+          <div>
+            <div class="stars" id="avgStars">☆☆☆☆☆</div>
+            <div class="rev-total" id="revCount">0 reviews</div>
+          </div>
+        </div>
+        <div class="rating-bars" id="ratingBars"></div>
+        <div style="margin-top:2em;">
+          <div class="rev-list" id="revList"></div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="rev-form">
+        <h3 style="font-size:1.1rem; margin-bottom:.3em;">Leave A Review</h3>
+        <p style="font-size:.85rem; color:#5A6358; margin:0 0 1em;">Stayed with us? Share your experience with future guests.</p>
+
+        <div id="revFormLocked">
+          <p class="lockedNote">Sign in as a guest to leave a review.</p>
+          <button class="btn ghost small" id="revSignInBtn">Guest Sign In</button>
+        </div>
+
+        <div id="revFormUnlocked" style="display:none;">
+          <div class="field">
+            <label>Rating</label>
+            <div class="starpick" id="starPick">
+              <span data-v="1">★</span>
+              <span data-v="2">★</span>
+              <span data-v="3">★</span>
+              <span data-v="4">★</span>
+              <span data-v="5">★</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Your Review</label>
+            <textarea id="revText" placeholder="Tell future guests about your stay…" rows="5"></textarea>
+          </div>
+          <button class="btn amber" id="revSubmitBtn" style="width:100%;justify-content:center;">Post Review</button>
+          <div class="err" id="revErr"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align:center; padding:64px 0;">
+  <div class="container">
+    <div class="eyebrow" style="justify-content:center;">Happy Yet?</div>
+    <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); margin-bottom:.8em;">Book Your Own Stay</h2>
+    <a href="book.html" class="btn amber">Check Availability</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M2 24 L11 10 L16 17 L20 11 L30 24 Z" fill="currentColor" opacity="0.9"/></svg>
+        Meghtal
+      </a>
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <a href="rooms.html">Rooms</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="book.html">Book Now</a>
+      </nav>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+    </div>
+    <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
+  </div>
+</footer>
+
+<!-- AUTH MODALS -->
+<div class="overlay" id="adminOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="adminOverlay">&times;</button>
+    <h3>Admin Sign In</h3>
+    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
+    <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
+    <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
+    <div class="err" id="adminErr"></div>
+  </div>
+</div>
+<div class="overlay" id="userOverlay">
+  <div class="modal">
+    <button class="closeX" data-close="userOverlay">&times;</button>
+    <h3>Guest Sign In</h3>
+    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
+    <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
+    <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
+    <div class="err" id="userErr"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/app.js"></script>
+<script>
+
+MT.pageInit = async function () {
+  MT.state.reviews = await MT.loadKey('reviews', MT.defaultReviews);
+  renderReviews();
+};
+
+MT.onAuthChange = function () {
+  document.getElementById('revFormLocked').style.display    = MT.state.user ? 'none'  : 'block';
+  document.getElementById('revFormUnlocked').style.display  = MT.state.user ? 'block' : 'none';
+};
+
+function renderReviews () {
+  const list = [...MT.state.reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  document.getElementById('revList').innerHTML = list.length
+    ? list.map(r => `
+        <div class="rev-card">
+          <div class="top">
+            <span class="name">${r.name}</span>
+            <span class="date">${r.date}</span>
+          </div>
+          <div class="stars">${MT.starString(r.rating)}</div>
+          <p>${r.text}</p>
+        </div>
+      `).join('')
+    : '<p style="color:#7A7A6E;">No reviews yet — be the first!</p>';
+
+  const total = MT.state.reviews.length;
+  const avg   = total ? (MT.state.reviews.reduce((s, r) => s + r.rating, 0) / total) : 0;
+
+  document.getElementById('avgScore').textContent = total ? avg.toFixed(1) : '–';
+  document.getElementById('avgStars').textContent = MT.starString(avg);
+  document.getElementById('revCount').textContent = total + (total === 1 ? ' review' : ' reviews');
+
+  // Rating bar breakdown
+  const counts = [5,4,3,2,1].map(star => ({
+    star,
+    count: MT.state.reviews.filter(r => r.rating === star).length
+  }));
+  document.getElementById('ratingBars').innerHTML = counts.map(({ star, count }) => `
+    <div class="r-bar-row">
+      <span class="label">${star}★</span>
+      <div class="r-bar-track">
+        <div class="r-bar-fill" style="width:${total ? (count / total * 100).toFixed(1) : 0}%"></div>
+      </div>
+      <span class="count">${count}</span>
+    </div>
+  `).join('');
+}
+
+// Star picker
+document.querySelectorAll('#starPick span').forEach(s => {
+  s.addEventListener('click', () => {
+    MT.state.starPickVal = parseInt(s.getAttribute('data-v'), 10);
+    document.querySelectorAll('#starPick span').forEach(x => {
+      x.classList.toggle('on', parseInt(x.getAttribute('data-v'), 10) <= MT.state.starPickVal);
+    });
+  });
+});
+
+document.getElementById('revSubmitBtn')?.addEventListener('click', async () => {
+  const errEl = document.getElementById('revErr');
+  if (!MT.state.user)            { errEl.textContent = 'Please sign in first.';           return; }
+  if (MT.state.starPickVal === 0) { errEl.textContent = 'Pick a star rating.';             return; }
+  const text = document.getElementById('revText').value.trim();
+  if (!text)                     { errEl.textContent = 'Write a few words about your stay.'; return; }
+  errEl.textContent = '';
+  MT.state.reviews.unshift({
+    id: 'v' + Date.now(),
+    name: MT.state.user.name,
+    rating: MT.state.starPickVal,
+    text,
+    date: new Date().toISOString().slice(0, 10)
+  });
+  await MT.saveKey('reviews', MT.state.reviews);
+  document.getElementById('revText').value = '';
+  MT.state.starPickVal = 0;
+  document.querySelectorAll('#starPick span').forEach(x => x.classList.remove('on'));
+  renderReviews();
+  MT.toast('Thanks for your review!');
+});
+</script>
+</body>
+</html>
