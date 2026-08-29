@@ -5,11 +5,11 @@
   'use strict';
 
   /* =============================================
-     1. CRYSTAL SNOWFLAKES
-     — 6-arm crystalline shapes drawn on canvas
-     — strictly top-to-bottom, no upward movement
-     — gentle left/right sway only (sine wobble)
-     — random size, speed, rotation, opacity
+     1. ROUND SNOWFLAKES  (maximum performance)
+     — Single arc() per flake per frame
+     — One shared radial gradient, reused
+     — 30 fps cap, auto-reduced count on mobile
+     — Strictly downward only
   ============================================= */
   function initSnow() {
     const canvas = document.createElement('canvas');
@@ -28,131 +28,69 @@
     const ctx = canvas.getContext('2d');
     let W, H, flakes;
 
-    /* ── draw a 6-arm crystal snowflake ── */
-    function drawCrystal(x, y, size, angle, opacity) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(angle);
-      ctx.globalAlpha = opacity;
-      ctx.strokeStyle = '#e8f4ff';
-      ctx.lineWidth   = Math.max(0.6, size * 0.12);
-      ctx.lineCap     = 'round';
-
-      for (let arm = 0; arm < 6; arm++) {
-        ctx.save();
-        ctx.rotate((Math.PI / 3) * arm);
-
-        /* main arm */
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, -size);
-        ctx.stroke();
-
-        /* two symmetric branches at 60% of arm length */
-        const branchAt  = size * 0.55;
-        const branchLen = size * 0.35;
-        const branchAng = Math.PI / 5;  /* ~36 deg */
-
-        ctx.beginPath();
-        ctx.moveTo(0, -branchAt);
-        ctx.lineTo( Math.sin(branchAng) * branchLen, -(branchAt + Math.cos(branchAng) * branchLen));
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(0, -branchAt);
-        ctx.lineTo(-Math.sin(branchAng) * branchLen, -(branchAt + Math.cos(branchAng) * branchLen));
-        ctx.stroke();
-
-        /* tiny tip branches at 85% */
-        const tipAt  = size * 0.85;
-        const tipLen = size * 0.18;
-        const tipAng = Math.PI / 4;
-
-        ctx.beginPath();
-        ctx.moveTo(0, -tipAt);
-        ctx.lineTo( Math.sin(tipAng) * tipLen, -(tipAt + Math.cos(tipAng) * tipLen));
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(0, -tipAt);
-        ctx.lineTo(-Math.sin(tipAng) * tipLen, -(tipAt + Math.cos(tipAng) * tipLen));
-        ctx.stroke();
-
-        ctx.restore();
-      }
-
-      /* centre dot */
-      ctx.beginPath();
-      ctx.arc(0, 0, size * 0.1, 0, Math.PI * 2);
-      ctx.fillStyle = '#cce8ff';
-      ctx.globalAlpha = opacity * 0.9;
-      ctx.fill();
-
-      ctx.restore();
-    }
-
     function makeFlake() {
-      const size = Math.random() * 9 + 4;       /* 4–13 px arm length */
+      const r = Math.random() * 2.8 + 0.8;   /* radius 0.8 – 3.6 px */
       return {
         x      : Math.random() * W,
-        y      : -(size * 2 + Math.random() * H), /* start above viewport */
-        size,
-        speed  : Math.random() * 0.8 + 0.3,     /* 0.3–1.1 px/frame */
-        sway   : (Math.random() - 0.5) * 0.4,   /* gentle drift ±0.2 */
+        y      : Math.random() * H,            /* scatter on load */
+        r,
+        speed  : Math.random() * 0.6 + 0.2,   /* 0.2 – 0.8 px / frame */
+        sway   : (Math.random() - 0.5) * 0.3,
         wobble : Math.random() * Math.PI * 2,
-        wobbleSpeed: Math.random() * 0.015 + 0.004,
-        angle  : Math.random() * Math.PI * 2,
-        spin   : (Math.random() - 0.5) * 0.008, /* slow rotation */
-        opacity: Math.random() * 0.55 + 0.3     /* 0.3–0.85 */
+        wobbleSpeed: Math.random() * 0.01 + 0.003,
+        opacity: Math.random() * 0.5 + 0.25   /* 0.25 – 0.75 */
       };
+    }
+
+    function flakeCount() {
+      const area = W * H;
+      const base = Math.floor(area / 14000);
+      return Math.min(base, window.innerWidth < 768 ? 55 : 120);
     }
 
     function resize() {
       W = canvas.width  = window.innerWidth;
       H = canvas.height = window.innerHeight;
-      const count = Math.floor((W * H) / 10000);
-      flakes = Array.from({ length: Math.min(count, 160) }, makeFlake);
-      /* scatter initial y positions so screen isn't empty at load */
-      flakes.forEach(f => { f.y = Math.random() * H; });
+      flakes = Array.from({ length: flakeCount() }, makeFlake);
     }
 
-    let raf;
-    function tick() {
+    /* 30 fps cap — snow is indistinguishable at 30 vs 60 fps */
+    let raf, lastT = 0;
+    const FPS_INTERVAL = 1000 / 30;
+
+    function tick(ts) {
+      raf = requestAnimationFrame(tick);
+      if (ts - lastT < FPS_INTERVAL) return;
+      lastT = ts;
+
       ctx.clearRect(0, 0, W, H);
 
       for (const f of flakes) {
-        /* update position — y only increases (downward) */
+        /* move — y always increases (downward only) */
         f.wobble += f.wobbleSpeed;
-        f.x      += f.sway + Math.sin(f.wobble) * 0.5;
-        f.y      += f.speed;          /* ALWAYS positive = downward */
-        f.angle  += f.spin;
+        f.x      += f.sway + Math.sin(f.wobble) * 0.4;
+        f.y      += f.speed;
 
-        /* wrap horizontally */
-        if (f.x > W + f.size * 2) f.x = -(f.size * 2);
-        if (f.x < -(f.size * 2))  f.x = W + f.size * 2;
+        /* wrap */
+        if (f.x >  W + 5) f.x = -5;
+        if (f.x < -5)     f.x =  W + 5;
+        if (f.y >  H + 5) { f.y = -5; f.x = Math.random() * W; }
 
-        /* reset to top when past bottom */
-        if (f.y > H + f.size * 2) {
-          f.x      = Math.random() * W;
-          f.y      = -(f.size * 2);
-          f.speed  = Math.random() * 0.8 + 0.3;
-          f.sway   = (Math.random() - 0.5) * 0.4;
-          f.opacity= Math.random() * 0.55 + 0.3;
-        }
-
-        drawCrystal(f.x, f.y, f.size, f.angle, f.opacity);
+        /* draw: single filled circle — cheapest possible draw call */
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220,240,255,${f.opacity})`;
+        ctx.fill();
       }
-
-      raf = requestAnimationFrame(tick);
     }
 
     resize();
-    window.addEventListener('resize', () => { resize(); });
-    tick();
+    window.addEventListener('resize', resize);
+    raf = requestAnimationFrame(tick);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) cancelAnimationFrame(raf);
-      else tick();
+      else { lastT = 0; raf = requestAnimationFrame(tick); }
     });
   }
 
