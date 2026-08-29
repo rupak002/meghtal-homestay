@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reviews — Meghtal Homestay</title>
+  <title>Reviews â€” Meghtal Homestay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@
   <div class="container">
     <div class="eyebrow" style="color:var(--amber-light); justify-content:center;">Guest Book</div>
     <h1>What Guests Say</h1>
-    <p>Real stays, honest words — including the ones where the clouds never cleared.</p>
+    <p>Real stays, honest words â€” including the ones where the clouds never cleared.</p>
   </div>
 </div>
 
@@ -94,9 +94,9 @@
       <!-- Left: summary + list -->
       <div>
         <div class="rev-summary">
-          <div class="avg" id="avgScore">–</div>
+          <div class="avg" id="avgScore">â€“</div>
           <div>
-            <div class="stars" id="avgStars">☆☆☆☆☆</div>
+            <div class="stars" id="avgStars">â˜†â˜†â˜†â˜†â˜†</div>
             <div class="rev-total" id="revCount">0 reviews</div>
           </div>
         </div>
@@ -120,16 +120,16 @@
           <div class="field">
             <label>Rating</label>
             <div class="starpick" id="starPick">
-              <span data-v="1">★</span>
-              <span data-v="2">★</span>
-              <span data-v="3">★</span>
-              <span data-v="4">★</span>
-              <span data-v="5">★</span>
+              <span data-v="1">â˜…</span>
+              <span data-v="2">â˜…</span>
+              <span data-v="3">â˜…</span>
+              <span data-v="4">â˜…</span>
+              <span data-v="5">â˜…</span>
             </div>
           </div>
           <div class="field">
             <label>Your Review</label>
-            <textarea id="revText" placeholder="Tell future guests about your stay…" rows="5"></textarea>
+            <textarea id="revText" placeholder="Tell future guests about your stayâ€¦" rows="5"></textarea>
           </div>
           <button class="btn amber" id="revSubmitBtn" style="width:100%;justify-content:center;">Post Review</button>
           <div class="err" id="revErr"></div>
@@ -164,7 +164,7 @@
         <a href="reviews.html">Reviews</a>
         <a href="book.html">Book Now</a>
       </nav>
-      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal Â· Est. 1978</div>
     </div>
     <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
   </div>
@@ -175,7 +175,7 @@
   <div class="modal">
     <button class="closeX" data-close="adminOverlay">&times;</button>
     <h3>Admin Sign In</h3>
-    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="hint">demo credentials â€” admin / mountain2026</div>
     <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
     <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
     <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
@@ -186,7 +186,7 @@
   <div class="modal">
     <button class="closeX" data-close="userOverlay">&times;</button>
     <h3>Guest Sign In</h3>
-    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="hint">No password needed â€” just tell us who you are</div>
     <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
     <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
     <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
@@ -222,12 +222,12 @@ function renderReviews () {
           <p>${r.text}</p>
         </div>
       `).join('')
-    : '<p style="color:#7A7A6E;">No reviews yet — be the first!</p>';
+    : '<p style="color:#7A7A6E;">No reviews yet â€” be the first!</p>';
 
   const total = MT.state.reviews.length;
   const avg   = total ? (MT.state.reviews.reduce((s, r) => s + r.rating, 0) / total) : 0;
 
-  document.getElementById('avgScore').textContent = total ? avg.toFixed(1) : '–';
+  document.getElementById('avgScore').textContent = total ? avg.toFixed(1) : 'â€“';
   document.getElementById('avgStars').textContent = MT.starString(avg);
   document.getElementById('revCount').textContent = total + (total === 1 ? ' review' : ' reviews');
 
@@ -238,7 +238,7 @@ function renderReviews () {
   }));
   document.getElementById('ratingBars').innerHTML = counts.map(({ star, count }) => `
     <div class="r-bar-row">
-      <span class="label">${star}★</span>
+      <span class="label">${star}â˜…</span>
       <div class="r-bar-track">
         <div class="r-bar-fill" style="width:${total ? (count / total * 100).toFixed(1) : 0}%"></div>
       </div>
@@ -279,5 +279,6 @@ document.getElementById('revSubmitBtn')?.addEventListener('click', async () => {
   MT.toast('Thanks for your review!');
 });
 </script>
+<script src="js/snow.js"></script>
 </body>
 </html>

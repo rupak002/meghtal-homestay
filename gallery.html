@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery — Meghtal Homestay</title>
+  <title>Gallery â€” Meghtal Homestay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -140,7 +140,7 @@
         <a href="reviews.html">Reviews</a>
         <a href="book.html">Book Now</a>
       </nav>
-      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal Â· Est. 1978</div>
     </div>
     <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
   </div>
@@ -151,7 +151,7 @@
   <div class="modal">
     <button class="closeX" data-close="adminOverlay">&times;</button>
     <h3>Admin Sign In</h3>
-    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="hint">demo credentials â€” admin / mountain2026</div>
     <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
     <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
     <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
@@ -162,7 +162,7 @@
   <div class="modal">
     <button class="closeX" data-close="userOverlay">&times;</button>
     <h3>Guest Sign In</h3>
-    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="hint">No password needed â€” just tell us who you are</div>
     <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
     <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
     <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
@@ -207,7 +207,7 @@ function renderGallery () {
   document.getElementById('galGrid').innerHTML = items.map(g => `
     <div class="gal-item" data-img="${g.img}" data-cap="${g.cap}">
       <img src="${g.img}" onerror="this.onerror=null;this.src='https://picsum.photos/seed/${g.id}/700/500'" alt="${g.cap}" loading="lazy">
-      <div class="gal-cap">${g.cap} · ${g.cat}</div>
+      <div class="gal-cap">${g.cap} Â· ${g.cat}</div>
       ${MT.state.isAdmin ? `<button class="gal-del" data-del="${g.id}" title="Remove">&times;</button>` : ''}
     </div>
   `).join('');
@@ -250,7 +250,7 @@ document.getElementById('galUploadBtn').addEventListener('click', async () => {
   const cat = document.getElementById('galCatSelect').value;
   if (!fileInput.files || !fileInput.files[0]) { MT.toast('Choose a photo first'); return; }
   const btn = document.getElementById('galUploadBtn');
-  btn.disabled = true; btn.textContent = 'Uploading…';
+  btn.disabled = true; btn.textContent = 'Uploadingâ€¦';
   try {
     const dataUrl = await MT.resizeImage(fileInput.files[0]);
     const cap = (capInput && capInput.value.trim()) || 'Added by admin';
@@ -259,7 +259,7 @@ document.getElementById('galUploadBtn').addEventListener('click', async () => {
     fileInput.value = '';
     if (capInput) capInput.value = '';
     renderGallery();
-    MT.toast('Photo added to gallery ✓');
+    MT.toast('Photo added to gallery âœ“');
   } catch (e) {
     console.error(e);
     MT.toast('Could not read that image');
@@ -267,5 +267,6 @@ document.getElementById('galUploadBtn').addEventListener('click', async () => {
   btn.disabled = false; btn.textContent = 'Add To Gallery';
 });
 </script>
+<script src="js/snow.js"></script>
 </body>
 </html>

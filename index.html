@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meghtal — A Mountain Homestay</title>
+  <title>Meghtal &#8212; A Mountain Homestay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -38,25 +38,12 @@
     .locate-addr { font-family: 'Space Mono', monospace; font-size: .85rem; color: var(--amber-light); margin: 1em 0 1.4em; }
 
     /* ---- Quick-links strip ---- */
-    .quicklinks {
-      background: var(--parchment);
-      padding: 48px 0;
-    }
-    .ql-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
+    .quicklinks { background: var(--parchment); padding: 48px 0; }
+    .ql-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .ql-card {
-      background: var(--snow);
-      border: 1px solid #E3DCC9;
-      border-radius: var(--radius);
-      padding: 28px 22px;
-      text-decoration: none;
-      color: var(--ink);
-      display: flex;
-      flex-direction: column;
-      gap: .5em;
+      background: var(--snow); border: 1px solid #E3DCC9; border-radius: var(--radius);
+      padding: 28px 22px; text-decoration: none; color: var(--ink);
+      display: flex; flex-direction: column; gap: .5em;
       transition: box-shadow .2s, transform .2s;
     }
     .ql-card:hover { box-shadow: 0 6px 24px rgba(18,32,25,.1); transform: translateY(-2px); }
@@ -105,7 +92,7 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-inner">
-    <div class="eyebrow" style="color:var(--amber-light);">Darjeeling Ridge · West Bengal</div>
+    <div class="eyebrow" style="color:var(--amber-light);">Darjeeling Ridge &middot; West Bengal</div>
     <h1>Wake Up Above The Clouds</h1>
     <p class="lede">A family-run homestay on the eastern Himalayan ridge, where every balcony faces Kanchenjunga and breakfast is timed to the sunrise.</p>
     <div class="hero-ctas">
@@ -120,13 +107,13 @@
   <div class="container locate-grid">
     <div class="locate-map" id="mapClick">
       <iframe loading="lazy" src="https://maps.google.com/maps?q=27.0360,88.2627&z=13&output=embed"></iframe>
-      <div class="tap"><span>Open in Google Maps →</span></div>
+      <div class="tap"><span>Open in Google Maps &#8594;</span></div>
     </div>
     <div class="locate-text">
       <div class="eyebrow" style="color:var(--amber);">Find Us</div>
       <h2 style="color:var(--snow);">Tucked Into The Ridge, 20 Minutes From Darjeeling Town</h2>
-      <p>We're set on a terraced hillside above a pine forest — close enough for a day trip into town, far enough that the only sound at night is the wind.</p>
-      <div class="locate-addr">27.0360° N, 88.2627° E · Darjeeling Hills, West Bengal</div>
+      <p>We're set on a terraced hillside above a pine forest &#8212; close enough for a day trip into town, far enough that the only sound at night is the wind.</p>
+      <div class="locate-addr">27.0360&deg; N, 88.2627&deg; E &middot; Darjeeling Hills, West Bengal</div>
       <a class="btn amber" href="https://www.google.com/maps?q=27.0360,88.2627" target="_blank" rel="noopener">Get Directions</a>
     </div>
   </div>
@@ -139,24 +126,24 @@
   <div class="container">
     <div class="ql-grid">
       <a href="about.html" class="ql-card">
-        <div class="icon">🏡</div>
+        <div class="icon">&#127969;</div>
         <h3>Our Story</h3>
         <p>Three generations on the same hillside since 1978.</p>
       </a>
       <a href="rooms.html" class="ql-card">
-        <div class="icon">🛏</div>
+        <div class="icon">&#128716;</div>
         <h3>Rooms &amp; Rates</h3>
         <p>Three rooms, each with a balcony facing the valley.</p>
       </a>
       <a href="gallery.html" class="ql-card">
-        <div class="icon">🌄</div>
+        <div class="icon">&#127748;</div>
         <h3>Gallery</h3>
         <p>Balconies, ridgelines, and whatever the sky is doing.</p>
       </a>
       <a href="reviews.html" class="ql-card">
-        <div class="icon">⭐</div>
+        <div class="icon">&#11088;</div>
         <h3>Guest Reviews</h3>
-        <p>Real stays, honest words — 4.8 average from 3 reviews.</p>
+        <p>Real stays, honest words &#8212; 4.8 average from 3 reviews.</p>
       </a>
     </div>
   </div>
@@ -177,18 +164,18 @@
         <a href="reviews.html">Reviews</a>
         <a href="book.html">Book Now</a>
       </nav>
-      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal &middot; Est. 1978</div>
     </div>
     <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
   </div>
 </footer>
 
-<!-- AUTH MODALS (shared across all pages) -->
+<!-- AUTH MODALS -->
 <div class="overlay" id="adminOverlay">
   <div class="modal">
     <button class="closeX" data-close="adminOverlay">&times;</button>
     <h3>Admin Sign In</h3>
-    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="hint">demo credentials &#8212; admin / mountain2026</div>
     <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
     <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
     <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
@@ -200,7 +187,7 @@
   <div class="modal">
     <button class="closeX" data-close="userOverlay">&times;</button>
     <h3>Guest Sign In</h3>
-    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="hint">No password needed &#8212; just tell us who you are</div>
     <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
     <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
     <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
@@ -209,12 +196,12 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
 <script src="js/app.js"></script>
 <script>
   document.getElementById('mapClick').addEventListener('click', () => {
     window.open('https://www.google.com/maps?q=27.0360,88.2627', '_blank');
   });
 </script>
+<script src="js/snow.js"></script>
 </body>
 </html>

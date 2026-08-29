@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Now — Meghtal Homestay</title>
+  <title>Book Now &#8212; Meghtal Homestay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -25,7 +25,12 @@
     .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
     .contact-list { display: flex; flex-direction: column; gap: 1.2em; margin-top: 1.4em; }
     .contact-item { display: flex; align-items: center; gap: .9em; }
-    .contact-item .icon { width: 42px; height: 42px; border-radius: 50%; background: var(--pine); color: var(--snow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+    .contact-item .icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--pine); color: var(--snow);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.1rem;
+    }
     .contact-item a, .contact-item span.val { font-weight: 600; color: var(--pine-dark); text-decoration: none; }
     .contact-item a:hover { color: var(--amber); }
     .contact-item .lbl { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--amber); font-family: 'Space Mono',monospace; }
@@ -80,7 +85,7 @@
   <div class="container">
     <div class="eyebrow" style="color:var(--amber-light); justify-content:center;">Reserve</div>
     <h1>Book Your Stay</h1>
-    <p>No deposit taken until we confirm availability. This is a demo checkout — no real payment is processed.</p>
+    <p>No deposit taken until we confirm availability. This is a demo checkout &#8212; no real payment is processed.</p>
   </div>
 </div>
 
@@ -107,17 +112,17 @@
         <div class="field">
           <label>Payment Method</label>
           <div class="pay-options">
-            <label class="pay-opt"><input type="radio" name="pay" value="Card" checked> Credit / Debit Card</label>
-            <label class="pay-opt"><input type="radio" name="pay" value="UPI"> UPI</label>
-            <label class="pay-opt"><input type="radio" name="pay" value="Property"> Pay At Property</label>
+            <label class="pay-opt"><input type="radio" name="pay" value="Card" checked> &#128179; Credit / Debit Card</label>
+            <label class="pay-opt"><input type="radio" name="pay" value="UPI"> &#128244; UPI</label>
+            <label class="pay-opt"><input type="radio" name="pay" value="Property"> &#127968; Pay At Property</label>
           </div>
         </div>
         <div id="cardFields" class="grid2" style="margin-top:.6em;">
           <div class="field"><label>Card Number</label><input type="text" id="bkCard" placeholder="4242 4242 4242 4242" maxlength="19"></div>
-          <div class="field"><label>Expiry / CVV</label><input type="text" id="bkCardExp" placeholder="MM/YY · CVV"></div>
+          <div class="field"><label>Expiry / CVV</label><input type="text" id="bkCardExp" placeholder="MM/YY &middot; CVV"></div>
         </div>
         <button class="btn amber" id="bkSubmit" style="width:100%; justify-content:center; margin-top:.6em;">
-          Confirm Booking
+          &#10003; Confirm Booking
         </button>
         <div class="err" id="bkErr"></div>
       </div>
@@ -129,9 +134,9 @@
              alt="Mountain lake at Meghtal">
         <div class="callout">
           <div class="eyebrow">Good To Know</div>
-          <p>Check-in from 12:00 PM · Check-out by 10:30 AM</p>
-          <p>Home-cooked breakfast and dinner included</p>
-          <p>Free cancellation up to 48 hours before arrival</p>
+          <p>&#128336; Check-in from 12:00 PM &middot; Check-out by 10:30 AM</p>
+          <p>&#127859; Home-cooked breakfast and dinner included</p>
+          <p>&#10003; Free cancellation up to 48 hours before arrival</p>
         </div>
       </div>
 
@@ -147,31 +152,31 @@
     <div>
       <div class="eyebrow">Get In Touch</div>
       <h2>Say Hello Before You Arrive</h2>
-      <p>Questions about the road up, the weather, or what to pack? Reach us directly — we usually reply within the hour.</p>
+      <p>Questions about the road up, the weather, or what to pack? Reach us directly &#8212; we usually reply within the hour.</p>
       <div class="contact-list">
         <div class="contact-item">
-          <div class="icon">☎</div>
+          <div class="icon">&#128222;</div>
           <div>
             <span class="lbl">Phone / WhatsApp</span>
             <a href="tel:+919830000000">+91 98300 00000</a>
           </div>
         </div>
         <div class="contact-item">
-          <div class="icon">f</div>
+          <div class="icon">&#128241;</div>
           <div>
             <span class="lbl">Facebook</span>
             <a href="https://facebook.com/meghtalhomestay" target="_blank" rel="noopener">facebook.com/meghtalhomestay</a>
           </div>
         </div>
         <div class="contact-item">
-          <div class="icon">◎</div>
+          <div class="icon">&#128247;</div>
           <div>
             <span class="lbl">Instagram</span>
             <a href="https://instagram.com/meghtal.homestay" target="_blank" rel="noopener">@meghtal.homestay</a>
           </div>
         </div>
         <div class="contact-item">
-          <div class="icon">✉</div>
+          <div class="icon">&#9993;</div>
           <div>
             <span class="lbl">Email</span>
             <a href="mailto:stay@meghtal.in">stay@meghtal.in</a>
@@ -201,7 +206,7 @@
         <a href="reviews.html">Reviews</a>
         <a href="book.html">Book Now</a>
       </nav>
-      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal · Est. 1978</div>
+      <div style="font-size:.85rem;">Darjeeling Hills, West Bengal &middot; Est. 1978</div>
     </div>
     <div class="fine">This is a frontend demo site. Logins, payments, and bookings shown here are simulated for demonstration only.</div>
   </div>
@@ -212,7 +217,7 @@
   <div class="modal">
     <button class="closeX" data-close="adminOverlay">&times;</button>
     <h3>Admin Sign In</h3>
-    <div class="hint">demo credentials — admin / mountain2026</div>
+    <div class="hint">demo credentials &#8212; admin / mountain2026</div>
     <div class="field"><label>Username</label><input type="text" id="adminUser"></div>
     <div class="field"><label>Password</label><input type="password" id="adminPass"></div>
     <button class="btn amber" id="adminSubmit" style="width:100%;justify-content:center;">Sign In</button>
@@ -223,7 +228,7 @@
   <div class="modal">
     <button class="closeX" data-close="userOverlay">&times;</button>
     <h3>Guest Sign In</h3>
-    <div class="hint">No password needed — just tell us who you are</div>
+    <div class="hint">No password needed &#8212; just tell us who you are</div>
     <div class="field"><label>Your Name</label><input type="text" id="userName"></div>
     <div class="field"><label>Email</label><input type="email" id="userEmail"></div>
     <button class="btn amber" id="userSubmit" style="width:100%;justify-content:center;">Continue</button>
@@ -235,8 +240,8 @@
 <div class="overlay" id="confirmOverlay">
   <div class="modal confirm-card">
     <button class="closeX" data-close="confirmOverlay">&times;</button>
-    <h3>Booking Received 🎉</h3>
-    <p style="color:#4B5548;">We've noted your dates — a confirmation would normally follow by email.</p>
+    <h3>Booking Received &#127881;</h3>
+    <p style="color:#4B5548;">We've noted your dates &#8212; a confirmation would normally follow by email.</p>
     <div class="ref" id="confirmRef"></div>
     <button class="btn ghost" data-close="confirmOverlay">Done</button>
   </div>
@@ -245,23 +250,18 @@
 <div class="toast" id="toast"></div>
 <script src="js/app.js"></script>
 <script>
-
 MT.pageInit = async function () {
   const rooms = await MT.loadKey('rooms', MT.defaultRooms);
   MT.state.rooms = (rooms && rooms.length) ? rooms : MT.defaultRooms;
 
-  // Populate room select
   const bkRoom = document.getElementById('bkRoom');
   bkRoom.innerHTML = MT.state.rooms.map(r =>
-    `<option value="${r.id}">${r.name} — ₹${Number(r.price).toLocaleString('en-IN')}/night</option>`
+    `<option value="${r.id}">${r.name} &#8212; &#8377;${Number(r.price).toLocaleString('en-IN')}/night</option>`
   ).join('');
 
-  // Pre-select room from query param ?room=r2
-  const params = new URLSearchParams(location.search);
-  const roomParam = params.get('room');
+  const roomParam = new URLSearchParams(location.search).get('room');
   if (roomParam) bkRoom.value = roomParam;
 
-  // Default dates
   const today = new Date();
   const cin  = new Date(today.getTime() + 86400000);
   const cout = new Date(today.getTime() + 86400000 * 3);
@@ -269,7 +269,6 @@ MT.pageInit = async function () {
   document.getElementById('bkOut').value = cout.toISOString().slice(0, 10);
 };
 
-// Show/hide card fields
 document.querySelectorAll('input[name=pay]').forEach(r => {
   r.addEventListener('change', () => {
     document.getElementById('cardFields').style.display =
@@ -277,21 +276,19 @@ document.querySelectorAll('input[name=pay]').forEach(r => {
   });
 });
 
-// Format card number input
 document.getElementById('bkCard')?.addEventListener('input', e => {
   e.target.value = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
 });
 
-// Submit booking
 document.getElementById('bkSubmit').addEventListener('click', async () => {
-  const errEl = document.getElementById('bkErr');
-  const name  = document.getElementById('bkName').value.trim();
-  const phone = document.getElementById('bkPhone').value.trim();
-  const email = document.getElementById('bkEmail').value.trim();
-  const cin   = document.getElementById('bkIn').value;
-  const cout  = document.getElementById('bkOut').value;
+  const errEl  = document.getElementById('bkErr');
+  const name   = document.getElementById('bkName').value.trim();
+  const phone  = document.getElementById('bkPhone').value.trim();
+  const email  = document.getElementById('bkEmail').value.trim();
+  const cin    = document.getElementById('bkIn').value;
+  const cout   = document.getElementById('bkOut').value;
   const roomId = document.getElementById('bkRoom').value;
-  const pay   = document.querySelector('input[name=pay]:checked').value;
+  const pay    = document.querySelector('input[name=pay]:checked').value;
 
   if (!name || !phone || !email.includes('@') || !cin || !cout) {
     errEl.textContent = 'Please fill in all required fields.'; return;
@@ -317,5 +314,6 @@ document.getElementById('bkSubmit').addEventListener('click', async () => {
   MT.openModal('confirmOverlay');
 });
 </script>
+<script src="js/snow.js"></script>
 </body>
 </html>
