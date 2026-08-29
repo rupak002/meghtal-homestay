@@ -217,38 +217,12 @@
   }
 
   /* =============================================
-     4. PAGE TRANSITION FADE (dark overlay)
+     4. PAGE TRANSITION — removed dark overlay.
+     Browser native navigation is instant and
+     smoother than a JS fade-to-black pause.
   ============================================= */
   function initPageTransition() {
-    const overlay = document.createElement('div');
-    Object.assign(overlay.style, {
-      position     : 'fixed',
-      inset        : '0',
-      background   : 'var(--pine-dark)',
-      zIndex       : '99998',
-      pointerEvents: 'none',
-      opacity      : '1',
-      transition   : 'opacity .45s ease',
-    });
-    document.body.appendChild(overlay);
-
-    /* fade in on load */
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => { overlay.style.opacity = '0'; })
-    );
-
-    /* fade out before navigating */
-    document.querySelectorAll('a[href]').forEach(a => {
-      const href = a.getAttribute('href') || '';
-      if (href.startsWith('#') || href.startsWith('http') ||
-          href.startsWith('mailto') || href.startsWith('tel') ||
-          href.startsWith('javascript')) return;
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        overlay.style.opacity = '1';
-        setTimeout(() => { window.location.href = href; }, 420);
-      });
-    });
+    /* intentionally empty — no overlay, no delay */
   }
 
   /* =============================================
